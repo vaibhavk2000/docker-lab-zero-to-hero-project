@@ -1,7 +1,7 @@
 # Docker-lab-zero-to-hero-project
 ### A Progressive Journey from Beginner to Advanced Docker Usage
 
-![Docker Mastery Overview](docker.jpge)
+![Docker Mastery Overview](./docker.jpg)
 
 This repository contains one FastAPI application, packaged and delivered three different ways across three phases — beginner, intermediate, and advanced — so you can teach or demo the full maturity curve of real-world Docker + CI/CD practice.
 
