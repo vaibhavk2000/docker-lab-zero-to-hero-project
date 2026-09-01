@@ -11,7 +11,7 @@ The application code barely changes between phases; what changes is **how it's c
 
 ## Folder Structure
 ```
-docker-mastery-project/
+docker-lab-zero-to-hero-project/
 ├── phase1-beginner/          # Ubuntu base, single-stage, manual Docker CLI
 ├── phase2-intermediate/      # Slim base, multi-stage, basic CI pipeline
 ├── phase3-advanced/          # Alpine base, cached CI/CD, scanning, push to Docker Hub + AWS ECR
@@ -19,7 +19,7 @@ docker-mastery-project/
 └── README.md                 # you are here
 ```
 
-Each phase folder is self-contained (its own `Dockerfile`, `README.md`, requirements, and — from Phase 2 onward — its own GitHub Actions workflow), so you can `cd` into any one and follow along independently.
+Each phase folder is self-contained (its own `Dockerfile`, `README.md`, requirements, and — from Phase 2 onward — its own GitHub Actions workflow), so you can `cd` into any one and follow along independently. Build each phase from inside its own folder.
 
 ---
 
@@ -74,4 +74,4 @@ docker images | grep docker-mastery
 1. Show Phase 1 running, then run `docker images` to show its size.
 2. Show Phase 2's Dockerfile side-by-side with Phase 1's, rebuild, and compare size + build time.
 3. Push a commit and show the Phase 2 GitHub Actions run (lint/test/build).
-4. Show Phase 3's pipeline run end-to-end: cache hit on rebuild, Trivy scan output, and the final image tags appearing in both Docker Hub and ECR.
+4. Show Phase 3's pipeline run end-to-end: cache hit on rebuild, Trivy scan output, and the final image tags appearing in both Docker Hub and ECR. Pull requests run validation and scanning without attempting to push secrets-backed images.
