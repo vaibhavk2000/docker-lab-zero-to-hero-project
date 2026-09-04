@@ -97,7 +97,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Scan Docker image with Trivy
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.sha_tag }}
           format: table
@@ -111,6 +111,7 @@ jobs:
   push-dockerhub:
     name: Push to Docker Hub
     needs: build-and-scan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -147,6 +148,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Tag Docker image
+        shell: bash
         run: |
           DH_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}"
 
@@ -159,6 +161,7 @@ jobs:
             "${DH_REPO}:latest"
 
       - name: Push Docker image
+        shell: bash
         run: |
           DH_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}"
 
@@ -172,6 +175,7 @@ jobs:
   push-ecr:
     name: Push to Amazon ECR
     needs: build-and-scan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     permissions:
@@ -216,6 +220,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Tag ECR image
+        shell: bash
         run: |
           ECR_REPO="${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}"
 
@@ -228,8 +233,10 @@ jobs:
             "${ECR_REPO}:latest"
 
       - name: Push image to ECR
+        shell: bash
         run: |
           ECR_REPO="${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}"
 
           docker push "${ECR_REPO}:${{ steps.meta.outputs.sha_tag }}"
           docker push "${ECR_REPO}:latest"
+
